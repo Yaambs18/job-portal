@@ -19,8 +19,6 @@ async function bootstrap() {
     });
     app.use(helmet());
     app.useStaticAssets(join(__dirname, '..', 'public'));
-    app.setBaseViewsDir(join(__dirname, '..', 'views'));
-    app.setViewEngine('hbs');
     app.use(passport.initialize());
     app.use(compression());
     app.set('trust proxy', 1);
@@ -30,12 +28,6 @@ async function bootstrap() {
         max: 10000, // limit each IP to 100 requests per windowMs
       }),
     );
-    handlebars.registerHelper('ifCond', function (v1, v2, options) {
-      if (v1 === v2) {
-        return options.fn(this);
-      }
-      return options.inverse(this);
-    });
     // App start
     await app.listen(process.env.PORT || 3000, '0.0.0.0');
   } catch (error) {
